@@ -1,0 +1,5 @@
+include ':Decision'
+include ':Common'
+
+project(':Decision').projectDir = new File('decision')
+project(':Common').projectDir = new File('../christina_Common/common')
