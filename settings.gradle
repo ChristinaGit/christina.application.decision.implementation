@@ -1,5 +1,7 @@
 include ':Decision'
 include ':Common'
+include ':MVP'
 
 project(':Decision').projectDir = new File('decision')
 project(':Common').projectDir = new File('../christina_Common/common')
+project(':MVP').projectDir = new File('../christina_mvp/mvp')
