@@ -2,7 +2,7 @@ package moe.christina.decision.presenter
 
 import android.support.annotation.CallSuper
 import moe.christina.decision.screen.DecisionsViewerScreen
-import moe.christina.mvp.BasePresenter
+import moe.christina.mvp.presenter.BasePresenter
 
 class DecisionsViewerPresenter : BasePresenter<DecisionsViewerScreen>() {
     var counter: Int = 0

@@ -9,9 +9,9 @@ import android.view.View
 import android.widget.Toast
 import moe.christina.common.android.AndroidConstant
 import moe.christina.decision.R
-import moe.christina.decision.core.BaseDecisionActivity
 import moe.christina.decision.screen.DecisionsViewerScreen
-import moe.christina.mvp.Presenter
+import moe.christina.decision.screen.fragment.DecisionsListFragment
+import moe.christina.mvp.presenter.Presenter
 import javax.inject.Inject
 
 class DecisionsViewerActivity : BaseDecisionActivity(), DecisionsViewerScreen {
@@ -27,12 +27,19 @@ class DecisionsViewerActivity : BaseDecisionActivity(), DecisionsViewerScreen {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
         setContentView(R.layout.activity_decisions_viewer)
         setSupportActionBar(findViewById(R.id.toolbar) as Toolbar)
 
         fabView = findViewById(R.id.fab) as FloatingActionButton
         fabView.setOnClickListener(viewClickListener)
 
+        if (supportFragmentManager.findFragmentById(R.id.fragment_container) == null) {
+            supportFragmentManager
+                    .beginTransaction()
+                    .add(R.id.fragment_container, DecisionsListFragment.newInstance())
+                    .commit()
+        }
     }
 
     @CallSuper
