@@ -5,7 +5,6 @@ import android.support.annotation.CallSuper
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,15 +16,17 @@ import moe.christina.decision.screen.DecisionsListScreen
 import moe.christina.decision.screen.adapter.DecisionsListAdapter
 import moe.christina.mvp.presenter.Presenter
 import moe.christina.mvp.screen.behavior.ListScreenBehavior
+import moe.christina.mvp.screen.behavior.ListScreenBehavior.ViewItemsEvent
 import moe.christina.mvp.screen.behavior.ListScreenBehaviorDelegate
-import moe.christina.mvp.screen.behavior.ListScreenBehaviorDelegate.ItemsRefresherFactory.asItemRefresher
-import moe.christina.mvp.screen.behavior.ViewItemsEvent
+import moe.christina.mvp.screen.behavior.ListScreenBehaviorDelegate.Companion.asItemRefresher
+import moe.christina.mvp.screen.behavior.ListScreenBehaviorDelegate.Companion.asItemsConsumer
 import javax.inject.Inject
 
-class DecisionsListFragment(private val listScreenDelegate: ListScreenBehaviorDelegate<Decision>)
-    : BaseDecisionFragment(), DecisionsListScreen, ListScreenBehavior<Decision> by listScreenDelegate {
+class DecisionsListFragment(private val listScreenBehaviorDelegate: ListScreenBehaviorDelegate<Decision>)
+    : BaseDecisionFragment(), DecisionsListScreen, ListScreenBehavior<Decision> by listScreenBehaviorDelegate {
     companion object {
-        val LOG_TAG = AndroidConstant.logTag<DecisionsListFragment>()
+        @JvmStatic
+        private val LOG_TAG = AndroidConstant.logTag<DecisionsListFragment>()
 
         @JvmStatic
         fun newInstance(): DecisionsListFragment {
@@ -38,42 +39,29 @@ class DecisionsListFragment(private val listScreenDelegate: ListScreenBehaviorDe
     private val decisionsAdapter = DecisionsListAdapter()
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater?.inflate(R.layout.fragment_decisions_list, container, false)
-
-        if (view != null) {
-            listScreenDelegate.apply {
+        return inflater?.inflate(R.layout.fragment_decisions_list, container, false)?.apply {
+            listScreenBehaviorDelegate.apply {
                 visibilityCoordinator = LoadingViewVisibilityCoordinator().apply {
-                    val itemsListView = view.findViewById(R.id.content) as RecyclerView
-                    contentView = itemsListView
-
-                    itemsListView.adapter = decisionsAdapter
-                    itemsListView.layoutManager = LinearLayoutManager(view.context)
-
-                    noContentView = view.findViewById(R.id.no_content)
-                    loadingView = view.findViewById(R.id.loading)
-                    errorView = view.findViewById(R.id.loading_error)
-                }
-                itemsRefresher = (view.findViewById(R.id.refresh) as? SwipeRefreshLayout)?.asItemRefresher()
-                itemsConsumer = object : ListScreenBehaviorDelegate.ItemsConsumer<Decision> {
-                    override fun setItems(items: List<Decision>?) {
-                        Log.d(LOG_TAG, "2 items = $items")
-
-                        decisionsAdapter.items = items
-                        decisionsAdapter.notifyDataSetChanged()
-
-                        listScreenDelegate.visibilityCoordinator!!.showContent(true)
+                    contentView = (findViewById(R.id.content) as RecyclerView).apply {
+                        adapter = decisionsAdapter
+                        layoutManager = LinearLayoutManager(context)
                     }
+
+                    noContentView = findViewById(R.id.no_content)
+                    loadingView = findViewById(R.id.loading)
+                    errorView = findViewById(R.id.loading_error)
                 }
+                itemsRefresher = (findViewById(R.id.refresh) as SwipeRefreshLayout).asItemRefresher()
+                itemsConsumer = decisionsAdapter.asItemsConsumer()
             }
         }
-
-        return view
     }
 
+    @CallSuper
     override fun onResume() {
         super.onResume()
 
-        listScreenDelegate.riseViewItemsEvent(ViewItemsEvent.NEW)
+        listScreenBehaviorDelegate.riseViewItemsEvent(ViewItemsEvent.NEW)
     }
 
     @CallSuper

@@ -7,7 +7,7 @@ import moe.christina.common.core.RxSchedulers
 import moe.christina.decision.model.Decision
 import moe.christina.decision.screen.DecisionsListScreen
 import moe.christina.mvp.presenter.BasePresenter
-import moe.christina.mvp.screen.behavior.ViewItemsEvent
+import moe.christina.mvp.screen.behavior.ListScreenBehavior.ViewItemsEvent
 import java.util.concurrent.TimeUnit
 
 class DecisionsListPresenter : BasePresenter<DecisionsListScreen>() {

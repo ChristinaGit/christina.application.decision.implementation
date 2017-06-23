@@ -16,8 +16,10 @@ import javax.inject.Inject
 
 class DecisionsViewerActivity : BaseDecisionActivity(), DecisionsViewerScreen {
     companion object {
-        val LOG_TAG = AndroidConstant.logTag<DecisionsViewerActivity>()
-        val SAVED_STATE_KEY = AndroidConstant.savedStateKey<DecisionsViewerActivity>("saved_state")
+        @JvmStatic
+        private val LOG_TAG = AndroidConstant.logTag<DecisionsViewerActivity>()
+        @JvmStatic
+        private val SAVED_STATE_KEY = AndroidConstant.savedStateKey<DecisionsViewerActivity>("saved_state")
     }
 
     override fun displayMessage(message: String) {
@@ -66,8 +68,8 @@ class DecisionsViewerActivity : BaseDecisionActivity(), DecisionsViewerScreen {
     @Inject
     lateinit var presenter: Presenter<DecisionsViewerScreen>
 
-    private val viewClickListener: View.OnClickListener = View.OnClickListener { v ->
-        when (v?.id) {
+    private val viewClickListener: View.OnClickListener = View.OnClickListener {
+        when (it?.id) {
             R.id.fab -> onFabClick()
         }
     }
