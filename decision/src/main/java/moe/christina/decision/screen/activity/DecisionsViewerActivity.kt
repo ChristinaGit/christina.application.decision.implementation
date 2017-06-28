@@ -9,10 +9,12 @@ import android.view.View
 import android.widget.Toast
 import moe.christina.common.android.AndroidConstant
 import moe.christina.decision.R
+import moe.christina.decision.di.qualifier.ScreenName
 import moe.christina.decision.screen.DecisionsViewerScreen
 import moe.christina.decision.screen.fragment.DecisionsListFragment
 import moe.christina.mvp.presenter.Presenter
 import javax.inject.Inject
+import javax.inject.Named
 
 class DecisionsViewerActivity : BaseDecisionActivity(), DecisionsViewerScreen {
     companion object {
@@ -65,7 +67,7 @@ class DecisionsViewerActivity : BaseDecisionActivity(), DecisionsViewerScreen {
         Snackbar.make(fabView, "Reified types test : $SAVED_STATE_KEY", Snackbar.LENGTH_LONG).show()
     }
 
-    @Inject
+    @field:[Inject Named(ScreenName.DECISIONS_VIEWER)]
     lateinit var presenter: Presenter<DecisionsViewerScreen>
 
     private val viewClickListener: View.OnClickListener = View.OnClickListener {

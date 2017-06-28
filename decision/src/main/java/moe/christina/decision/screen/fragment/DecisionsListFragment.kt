@@ -2,6 +2,7 @@ package moe.christina.decision.screen.fragment
 
 import android.os.Bundle
 import android.support.annotation.CallSuper
+import android.support.design.widget.Snackbar
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -10,20 +11,24 @@ import android.view.View
 import android.view.ViewGroup
 import moe.christina.common.android.AndroidConstant
 import moe.christina.common.android.coordination.LoadingViewVisibilityCoordinator
+import moe.christina.common.android.coordination.visibility.ProgressVisibilityChanger
 import moe.christina.decision.R
-import moe.christina.decision.model.Decision
+import moe.christina.decision.di.qualifier.ScreenName
+import moe.christina.decision.model.data.Decision
 import moe.christina.decision.screen.DecisionsListScreen
 import moe.christina.decision.screen.adapter.DecisionsListAdapter
+import moe.christina.mvp.core.utility.asDataConsumer
+import moe.christina.mvp.core.utility.asDataViewController
+import moe.christina.mvp.core.utility.asLoadDataViewController
+import moe.christina.mvp.core.utility.asRefreshDataViewController
 import moe.christina.mvp.presenter.Presenter
-import moe.christina.mvp.screen.behavior.ListScreenBehavior
-import moe.christina.mvp.screen.behavior.ListScreenBehavior.ViewItemsEvent
-import moe.christina.mvp.screen.behavior.ListScreenBehaviorDelegate
-import moe.christina.mvp.screen.behavior.ListScreenBehaviorDelegate.Companion.asItemRefresher
-import moe.christina.mvp.screen.behavior.ListScreenBehaviorDelegate.Companion.asItemsConsumer
+import moe.christina.mvp.screen.behavior.RefreshableScreenBehavior
+import moe.christina.mvp.screen.behavior.RefreshableScreenDelegate
 import javax.inject.Inject
+import javax.inject.Named
 
-class DecisionsListFragment(private val listScreenBehaviorDelegate: ListScreenBehaviorDelegate<Decision>)
-    : BaseDecisionFragment(), DecisionsListScreen, ListScreenBehavior<Decision> by listScreenBehaviorDelegate {
+class DecisionsListFragment(val loadableScreenDelegate: RefreshableScreenDelegate<List<Decision>>)
+    : BaseDecisionFragment(), DecisionsListScreen, RefreshableScreenBehavior<List<Decision>> by loadableScreenDelegate {
     companion object {
         @JvmStatic
         private val LOG_TAG = AndroidConstant.logTag<DecisionsListFragment>()
@@ -34,14 +39,14 @@ class DecisionsListFragment(private val listScreenBehaviorDelegate: ListScreenBe
         }
     }
 
-    constructor() : this(ListScreenBehaviorDelegate())
+    constructor() : this(RefreshableScreenDelegate<List<Decision>>())
 
     private val decisionsAdapter = DecisionsListAdapter()
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(R.layout.fragment_decisions_list, container, false)?.apply {
-            listScreenBehaviorDelegate.apply {
-                visibilityCoordinator = LoadingViewVisibilityCoordinator().apply {
+        return inflater?.inflate(R.layout.fragment_decisions_list, container, false)?.apply view@ {
+            loadableScreenDelegate.apply {
+                val visibilityCoordinator = LoadingViewVisibilityCoordinator().apply {
                     contentView = (findViewById(R.id.content) as RecyclerView).apply {
                         adapter = decisionsAdapter
                         layoutManager = LinearLayoutManager(context)
@@ -50,9 +55,20 @@ class DecisionsListFragment(private val listScreenBehaviorDelegate: ListScreenBe
                     noContentView = findViewById(R.id.no_content)
                     loadingView = findViewById(R.id.loading)
                     errorView = findViewById(R.id.loading_error)
+
+                    loadingVisibilityChanger = ProgressVisibilityChanger()
                 }
-                itemsRefresher = (findViewById(R.id.refresh) as SwipeRefreshLayout).asItemRefresher()
-                itemsConsumer = decisionsAdapter.asItemsConsumer()
+                val swipeRefreshView = (findViewById(R.id.refresh) as SwipeRefreshLayout).apply {
+                    setOnRefreshListener { riseRefreshDataEvent() }
+                }
+
+                dataViewController = visibilityCoordinator.asDataViewController()
+                loadDataViewController = visibilityCoordinator.asLoadDataViewController()
+                refreshDataViewController = swipeRefreshView.asRefreshDataViewController { visible ->
+                    if (visible)
+                        Snackbar.make(this@view, "Fail to refresh data!", Snackbar.LENGTH_SHORT).show()
+                }
+                dataConsumer = decisionsAdapter.asDataConsumer()
             }
         }
     }
@@ -61,7 +77,7 @@ class DecisionsListFragment(private val listScreenBehaviorDelegate: ListScreenBe
     override fun onResume() {
         super.onResume()
 
-        listScreenBehaviorDelegate.riseViewItemsEvent(ViewItemsEvent.NEW)
+        loadableScreenDelegate.riseLoadDataEvent()
     }
 
     @CallSuper
@@ -80,6 +96,6 @@ class DecisionsListFragment(private val listScreenBehaviorDelegate: ListScreenBe
         presenter.unbindScreen()
     }
 
-    @Inject
+    @field:[Inject Named(ScreenName.DECISIONS_LIST)]
     lateinit var presenter: Presenter<DecisionsListScreen>
 }

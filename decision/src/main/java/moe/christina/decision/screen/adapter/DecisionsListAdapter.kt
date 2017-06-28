@@ -6,9 +6,11 @@ import android.widget.TextView
 import moe.christina.common.android.view.recycler.adapter.RecyclerViewHolder
 import moe.christina.common.android.view.recycler.adapter.RecyclerViewListAdapter
 import moe.christina.decision.R
-import moe.christina.decision.model.Decision
+import moe.christina.decision.model.data.Decision
+import moe.christina.decision.screen.adapter.DecisionsListAdapter.DecisionViewHolder
 
-class DecisionsListAdapter(override var items: List<Decision>? = null) : RecyclerViewListAdapter<Decision, DecisionViewHolder>() {
+class DecisionsListAdapter(override var items: List<Decision>? = null)
+    : RecyclerViewListAdapter<Decision, DecisionViewHolder>() {
     override fun onCreateInnerItemViewHolder(parent: ViewGroup, viewType: Int): DecisionViewHolder {
         return DecisionViewHolder(inflateView(R.layout.adapter_decisions_list_item, parent))
     }
@@ -17,9 +19,8 @@ class DecisionsListAdapter(override var items: List<Decision>? = null) : Recycle
         val decision = getItem(position)
         holder.decisionNameView.text = decision.name
     }
-}
 
-class DecisionViewHolder(itemView: View) : RecyclerViewHolder(itemView) {
-    val decisionNameView: TextView = itemView.findViewById(R.id.decision_name) as TextView
-
+    class DecisionViewHolder(itemView: View) : RecyclerViewHolder(itemView) {
+        val decisionNameView: TextView = itemView.findViewById(R.id.decision_name) as TextView
+    }
 }
