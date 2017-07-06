@@ -8,11 +8,11 @@ import io.realm.annotations.Required
 
 @RealmClass
 data class Decision(
-        @PrimaryKey
-        @Required
-        var id: Long?,
-        var name: String?,
-        var objects: RealmList<NonValuableObject>?
+    @PrimaryKey
+    @Required
+    var id: Long?,
+    var name: String?,
+    var objects: RealmList<NonValuableObject>?
 ) : RealmModel {
     constructor() : this(null, null, null)
 }

@@ -11,7 +11,6 @@ import moe.christina.decision.model.data.Decision
 import moe.christina.decision.screen.DecisionsListScreen
 import moe.christina.mvp.core.utility.displayLoadDataTransformer
 import moe.christina.mvp.core.utility.displayRefreshDataTransformer
-import java.io.IOException
 import java.util.Random
 import java.util.concurrent.TimeUnit
 
@@ -43,25 +42,25 @@ class DecisionsListPresenter : BaseDecisionPresenter<DecisionsListScreen>() {
     private val random = Random(2)
 
     private fun getDecisionsLoader(): Observable<List<Decision>> = Observable
-            .range(random.nextInt(100), 20)
-            .delay(2, TimeUnit.SECONDS)
-            .map { Decision(it.toLong(), "Decision #$it", null) }
-            .toList()
-            .toObservable()
-            .doOnNext({
-                if (random.nextInt(100) > 65) {
-                    throw IOException("Error test.")
-                }
-            })
-            .subscribeOn(RxSchedulers.computation())
-            .observeOn(RxSchedulers.main())
+        .range(random.nextInt(100), 20)
+        .delay(2, TimeUnit.SECONDS)
+        .map { Decision(it.toLong(), "Decision #$it", null) }
+        .toList()
+        .toObservable()
+        .doOnNext({
+            //                if (random.nextInt(100) > 65) {
+            //                    throw IOException("Error test.")
+            //                }
+        })
+        .subscribeOn(RxSchedulers.computation())
+        .observeOn(RxSchedulers.main())
 
     private fun loadDecisionsHandler(event: Event) {
         loadDataObserver?.dispose()
         screen?.apply {
             loadDataObserver = getDecisionsLoader()
-                    .compose(displayLoadDataTransformer())
-                    .subscribe({}, { Log.w(LOG_TAG, "Failed to load decisions", it) })
+                .compose(displayLoadDataTransformer())
+                .subscribe({}, { Log.w(LOG_TAG, "Failed to load decisions", it) })
         }
     }
 
@@ -69,8 +68,8 @@ class DecisionsListPresenter : BaseDecisionPresenter<DecisionsListScreen>() {
         loadDataObserver?.dispose()
         screen?.apply {
             loadDataObserver = getDecisionsLoader()
-                    .compose(displayRefreshDataTransformer())
-                    .subscribe({}, { Log.w(LOG_TAG, "Failed to refresh decisions", it) })
+                .compose(displayRefreshDataTransformer())
+                .subscribe({}, { Log.w(LOG_TAG, "Failed to refresh decisions", it) })
         }
     }
 

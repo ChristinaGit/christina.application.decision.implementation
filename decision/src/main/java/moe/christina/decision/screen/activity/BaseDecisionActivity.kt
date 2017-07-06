@@ -7,7 +7,7 @@ import moe.christina.decision.di.application.DecisionApplicationComponentProvide
 import moe.christina.decision.di.screen.DecisionScreenComponent
 import moe.christina.decision.di.screen.DecisionScreenComponentProvider
 import moe.christina.decision.di.screen.module.DecisionPresenterScreenModule
-import moe.christina.mvp.android.view.support.ScreenAppCompatActivity
+import moe.christina.mvp.android.support.ScreenAppCompatActivity
 
 abstract class BaseDecisionActivity : ScreenAppCompatActivity(), DecisionScreenComponentProvider {
     final override val decisionScreenComponent: DecisionScreenComponent

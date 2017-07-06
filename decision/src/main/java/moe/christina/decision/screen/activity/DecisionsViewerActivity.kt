@@ -31,7 +31,6 @@ class DecisionsViewerActivity : BaseDecisionActivity(), DecisionsViewerScreen {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
         setContentView(R.layout.activity_decisions_viewer)
         setSupportActionBar(findViewById(R.id.toolbar) as Toolbar)
 
@@ -40,9 +39,9 @@ class DecisionsViewerActivity : BaseDecisionActivity(), DecisionsViewerScreen {
 
         if (supportFragmentManager.findFragmentById(R.id.fragment_container) == null) {
             supportFragmentManager
-                    .beginTransaction()
-                    .add(R.id.fragment_container, DecisionsListFragment.newInstance())
-                    .commit()
+                .beginTransaction()
+                .add(R.id.fragment_container, DecisionsListFragment.newInstance())
+                .commit()
         }
     }
 

@@ -16,5 +16,5 @@ class DecisionPresenterScreenModule {
     @Provides
     @ScreenScope
     fun provideDecisionsViewerPresenter(): Presenter<@JvmWildcard DecisionsViewerScreen> =
-            DecisionsViewerPresenter()
+        DecisionsViewerPresenter()
 }

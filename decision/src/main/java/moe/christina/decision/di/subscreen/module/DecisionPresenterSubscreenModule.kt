@@ -16,5 +16,5 @@ class DecisionPresenterSubscreenModule {
     @Provides
     @SubscreenScope
     fun provideDecisionsListPresenter(): Presenter<@JvmWildcard DecisionsListScreen> =
-            DecisionsListPresenter()
+        DecisionsListPresenter()
 }

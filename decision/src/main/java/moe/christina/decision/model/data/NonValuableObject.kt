@@ -7,9 +7,9 @@ import io.realm.annotations.Required
 
 @RealmClass
 data class NonValuableObject(
-        @PrimaryKey
-        @Required
-        var id: Long?
+    @PrimaryKey
+    @Required
+    var id: Long?
 ) : RealmModel {
     constructor() : this(null)
 }

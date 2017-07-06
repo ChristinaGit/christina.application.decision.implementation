@@ -17,7 +17,6 @@ import moe.christina.decision.di.qualifier.ScreenName
 import moe.christina.decision.model.data.Decision
 import moe.christina.decision.screen.DecisionsListScreen
 import moe.christina.decision.screen.adapter.DecisionsListAdapter
-import moe.christina.mvp.core.utility.asDataConsumer
 import moe.christina.mvp.core.utility.asDataViewController
 import moe.christina.mvp.core.utility.asLoadDataViewController
 import moe.christina.mvp.core.utility.asRefreshDataViewController
@@ -62,13 +61,21 @@ class DecisionsListFragment(val loadableScreenDelegate: RefreshableScreenDelegat
                     setOnRefreshListener { riseRefreshDataEvent() }
                 }
 
+                setDataConsumer(
+                    { decisionsAdapter.items?.isNotEmpty() == true },
+                    {
+                        decisionsAdapter.apply {
+                            items = it
+                            notifyInnerItemsChanged()
+                        }
+                    },
+                    { it?.isEmpty() == true })
                 dataViewController = visibilityCoordinator.asDataViewController()
                 loadDataViewController = visibilityCoordinator.asLoadDataViewController()
                 refreshDataViewController = swipeRefreshView.asRefreshDataViewController { visible ->
                     if (visible)
                         Snackbar.make(this@view, "Fail to refresh data!", Snackbar.LENGTH_SHORT).show()
                 }
-                dataConsumer = decisionsAdapter.asDataConsumer()
             }
         }
     }

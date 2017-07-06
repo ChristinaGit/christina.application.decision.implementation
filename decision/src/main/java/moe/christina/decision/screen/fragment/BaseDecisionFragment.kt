@@ -7,7 +7,7 @@ import moe.christina.decision.di.screen.DecisionScreenComponentProvider
 import moe.christina.decision.di.subscreen.DecisionSubscreenComponent
 import moe.christina.decision.di.subscreen.DecisionSubscreenComponentProvider
 import moe.christina.decision.di.subscreen.module.DecisionPresenterSubscreenModule
-import moe.christina.mvp.android.view.support.ScreenFragment
+import moe.christina.mvp.android.support.ScreenFragment
 
 abstract class BaseDecisionFragment : ScreenFragment(), DecisionSubscreenComponentProvider {
     final override val decisionSubscreenComponent: DecisionSubscreenComponent

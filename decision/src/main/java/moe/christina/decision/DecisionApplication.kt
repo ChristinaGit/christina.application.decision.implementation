@@ -17,7 +17,7 @@ class DecisionApplication : Application(), DecisionApplicationComponentProvider 
         super.onCreate()
 
         component = DaggerDecisionApplicationComponent
-                .builder()
-                .build()
+            .builder()
+            .build()
     }
 }
