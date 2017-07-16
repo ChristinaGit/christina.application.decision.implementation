@@ -1,12 +1,23 @@
 package moe.christina.decision.di.application
 
+import android.app.Application
+import dagger.BindsInstance
 import dagger.Component
-import moe.christina.decision.di.screen.DecisionScreenComponent
-import moe.christina.decision.di.screen.module.DecisionPresenterScreenModule
+import dagger.android.AndroidInjectionModule
+import moe.christina.decision.DecisionApplication
 import moe.christina.mvp.di.scope.ApplicationScope
 
-@Component
+@Component(modules = arrayOf(
+    AndroidInjectionModule::class,
+    DecisionActivityProviderModule::class,
+    DecisionApplicationModule::class))
 @ApplicationScope
 interface DecisionApplicationComponent {
-    fun addDecisionScreenComponent(decisionPresenterScreenModule: DecisionPresenterScreenModule): DecisionScreenComponent
+    fun inject(target: DecisionApplication)
+
+    @Component.Builder
+    interface Builder {
+        @BindsInstance fun application(application: Application): Builder
+        fun build(): DecisionApplicationComponent
+    }
 }

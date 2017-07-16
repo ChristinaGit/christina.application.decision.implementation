@@ -1,34 +1,28 @@
 package moe.christina.decision.screen.activity
 
-import android.os.Bundle
 import android.support.annotation.CallSuper
-import moe.christina.decision.di.application.DecisionApplicationComponent
-import moe.christina.decision.di.application.DecisionApplicationComponentProvider
-import moe.christina.decision.di.screen.DecisionScreenComponent
-import moe.christina.decision.di.screen.DecisionScreenComponentProvider
-import moe.christina.decision.di.screen.module.DecisionPresenterScreenModule
+import android.support.v4.app.Fragment
+import dagger.android.AndroidInjection
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.support.HasSupportFragmentInjector
 import moe.christina.mvp.android.support.ScreenAppCompatActivity
+import javax.inject.Inject
 
-abstract class BaseDecisionActivity : ScreenAppCompatActivity(), DecisionScreenComponentProvider {
-    final override val decisionScreenComponent: DecisionScreenComponent
-        get() = component
+abstract class BaseDecisionActivity :
+    ScreenAppCompatActivity(),
+    HasSupportFragmentInjector {
+
+    @field:[Inject]
+    lateinit var supportFragmentInjector: DispatchingAndroidInjector<Fragment>
+
+    override fun supportFragmentInjector(): AndroidInjector<Fragment> =
+        supportFragmentInjector
 
     @CallSuper
-    override fun onCreate(savedInstanceState: Bundle?) {
-        component = applicationComponent.addDecisionScreenComponent(DecisionPresenterScreenModule())
+    override fun onInjectMembers() {
+        super.onInjectMembers()
 
-        super.onCreate(savedInstanceState)
+        AndroidInjection.inject(this)
     }
-
-    private lateinit var component: DecisionScreenComponent
-
-    private val applicationComponent: DecisionApplicationComponent
-        get() {
-            val application = application
-            if (application !is DecisionApplicationComponentProvider) {
-                throw IllegalStateException("The application must implement ${DecisionApplicationComponentProvider::class}")
-            }
-
-            return application.decisionApplicationComponent
-        }
 }

@@ -1,23 +1,27 @@
 package moe.christina.decision;
 
+import android.app.Activity
 import android.app.Application
-import android.support.annotation.CallSuper
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasActivityInjector
 import moe.christina.decision.di.application.DaggerDecisionApplicationComponent
-import moe.christina.decision.di.application.DecisionApplicationComponent
-import moe.christina.decision.di.application.DecisionApplicationComponentProvider
+import javax.inject.Inject
 
-class DecisionApplication : Application(), DecisionApplicationComponentProvider {
-    private lateinit var component: DecisionApplicationComponent
+class DecisionApplication : Application(), HasActivityInjector {
+    @field:[Inject]
+    lateinit var dispatchingActivityInjector: DispatchingAndroidInjector<Activity>
 
-    override val decisionApplicationComponent: DecisionApplicationComponent
-        get() = component
+    override fun activityInjector(): AndroidInjector<Activity> =
+        dispatchingActivityInjector
 
-    @CallSuper
     override fun onCreate() {
         super.onCreate()
 
-        component = DaggerDecisionApplicationComponent
+        DaggerDecisionApplicationComponent
             .builder()
+            .application(this)
             .build()
+            .inject(this)
     }
 }

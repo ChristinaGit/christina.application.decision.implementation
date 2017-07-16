@@ -21,5 +21,11 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".screen.activity.LayerEditorActivity"
+            android:label="@string/layer_editor_title"
+            android:parentActivityName=".screen.activity.DecisionsViewerActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 </manifest>
