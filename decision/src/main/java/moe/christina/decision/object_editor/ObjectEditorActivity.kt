@@ -1,0 +1,3 @@
+package moe.christina.decision.object_editor
+
+class ObjectEditorActivity

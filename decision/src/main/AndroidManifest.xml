@@ -4,16 +4,18 @@
     package="moe.christina.decision">
 
     <application
-        android:name=".DecisionApplication"
+        android:name=".decision.DecisionApplication"
         android:allowBackup="true"
+        android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
-            android:name=".screen.activity.DecisionsViewerActivity"
-            android:label="@string/title_activity_main"
+            android:name=".decisions_viewer.DecisionsViewerActivity"
+            android:label="@string/activity_decisions_viewer_title_default"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -23,9 +25,7 @@
         </activity>
 
         <activity
-            android:name=".screen.activity.LayerEditorActivity"
-            android:label="@string/layer_editor_title"
-            android:parentActivityName=".screen.activity.DecisionsViewerActivity"
+            android:name=".objects_viewer.ObjectsViewerActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 </manifest>
