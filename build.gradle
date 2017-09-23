@@ -1,20 +1,12 @@
 buildscript {
-    ext.kotlinVersion = '1.1.4-3'
-    ext.daggerVersion = '2.11'
-    ext.rxjavaVersion = '2.1.0'
-    ext.rxandroidVersion = '2.0.1'
-    ext.rxlifecycle2Version = '2.1.0'
-    ext.androidSupportVersion = '25.4.0'
-    ext.ankoVersion = '0.10.1'
-
     repositories {
         maven { url 'https://maven.google.com' }
         mavenCentral()
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.0-beta5'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.0"
     }
 }
 

@@ -1,3 +1,0 @@
-package moe.christina.decision.decisions_viewer
-
-interface DecisionsViewerScreen : HasCreateDecisionBehavior

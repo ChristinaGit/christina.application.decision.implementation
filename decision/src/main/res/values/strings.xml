@@ -1,6 +1,0 @@
-<resources>
-    <string name="app_name">Decision</string>
-    <string name="activity_decisions_viewer_title_default">Список принятых решений</string>
-
-    <string name="layer_editor_title">Редактирование уровня</string>
-</resources>

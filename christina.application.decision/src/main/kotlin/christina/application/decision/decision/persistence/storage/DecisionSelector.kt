@@ -1,0 +1,3 @@
+package christina.application.decision.decision.persistence.storage
+
+object DecisionSelector

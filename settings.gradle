@@ -1,9 +1,13 @@
-include ':Decision'
-include ':Common'
-include ':MVP'
-include ':Templates'
+include ':christina.application.decision'
+include ':christina.library.android.architecture.mvp'
+include ':christina.library.android.templates'
+include ':christina.library.android.common'
+include ':christina.library.mapper'
+include ':christina.library.common'
 
-project(':Decision').projectDir = new File('decision')
-project(':Common').projectDir = new File('../christina_Common/common')
-project(':MVP').projectDir = new File('../christina_mvp/mvp')
-project(':Templates').projectDir = new File('../christina_Templates/Templates')
+project(':christina.application.decision').projectDir = new File('christina.application.decision')
+project(':christina.library.android.architecture.mvp').projectDir = new File('../christina.library.android.architecture.mvp/christina.library.android.architecture.mvp')
+project(':christina.library.android.templates').projectDir = new File('../christina.library.android.templates/christina.library.android.templates')
+project(':christina.library.android.common').projectDir = new File('../christina.library.android.common/christina.library.android.common')
+project(':christina.library.mapper').projectDir = new File('../christina.library.mapper/christina.library.mapper')
+project(':christina.library.common').projectDir = new File('../christina.library.common/christina.library.common')
