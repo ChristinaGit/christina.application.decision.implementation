@@ -5,14 +5,14 @@ import android.support.annotation.CallSuper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import christina.application.decision.R
+import christina.application.decision.core.BaseDecisionFragment
+import christina.application.decision.objects_list.domain.adapter.ObjectsListAdapter
+import christina.application.decision.objects_list.domain.model.Object
 import christina.common.event.Events
 import christina.common.event.core.NoticeEvent
 import christina.common.event.core.NoticeInternalEvent
 import christina.common.event.core.invoke
-import moe.christina.decision.R
-import christina.application.decision.core.BaseDecisionFragment
-import christina.application.decision.objects_list.domain.adapter.ObjectsListAdapter
-import christina.application.decision.objects_list.domain.model.Object
 import christina.library.android.architecture.mvp.screen_view.task.TaskScreenView
 import org.jetbrains.anko.AnkoLogger
 

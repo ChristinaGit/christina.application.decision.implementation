@@ -2,14 +2,15 @@ package christina.application.decision.objects_viewer
 
 import android.os.Bundle
 import android.view.View
+import christina.application.decision.R
+import christina.application.decision.core.BaseDecisionActivity
+import christina.application.decision.objects_list.ObjectsListFragment
 import christina.common.event.Events
 import christina.common.event.core.NoticeEvent
 import christina.common.event.core.NoticeInternalEvent
 import christina.common.event.core.invoke
-import moe.christina.decision.R
-import christina.application.decision.core.BaseDecisionActivity
-import christina.application.decision.objects_list.ObjectsListFragment
 import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.find
 
 class ObjectsViewerActivity :
     BaseDecisionActivity(),

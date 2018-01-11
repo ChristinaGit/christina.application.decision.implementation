@@ -1,14 +1,15 @@
 package christina.application.decision.objects_list
 
-import io.reactivex.disposables.Disposable
-import christina.library.android.common.rx.RxSchedulers
+import christina.application.decision.core.BaseDecisionPresenter
+import christina.application.decision.objects_list.domain.usecase.GetObjectsInteractor
 import christina.common.event.core.eventListener
 import christina.common.event.core.minusAssign
 import christina.common.event.core.plusAssign
-import christina.application.decision.core.BaseDecisionPresenter
-import christina.application.decision.objects_list.domain.usecase.GetObjectsInteractor
 import christina.library.android.architecture.mvp.di.scope.FragmentScope
 import christina.library.android.architecture.mvp.interactor.invoke
+import christina.library.android.architecture.mvp.screen_view.task.displayTask
+import christina.library.android.common.rx.RxSchedulers
+import io.reactivex.disposables.Disposable
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.warn
 import javax.inject.Inject

@@ -15,7 +15,7 @@
 
         <activity
             android:name=".decisions_viewer.DecisionsViewerActivity"
-            android:label="@string/activity_decisions_viewer_title_default"
+            android:label="@string/decisions_viewer_title_default"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

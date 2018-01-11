@@ -7,21 +7,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import christina.application.decision.R
+import christina.application.decision.core.BaseDecisionFragment
+import christina.application.decision.decisions_list.domain.model.Decision
+import christina.common.core.accessor.mutableAccessor
 import christina.common.event.Events
 import christina.common.event.core.NoticeEvent
 import christina.common.event.core.NoticeInternalEvent
 import christina.common.event.core.invoke
 import christina.common.state_coordinator.basic.BasicStateCoordinator
 import christina.common.state_coordinator.core.StateCoordinator
-import christina.common.state_coordinator.core.stateChanger
-import christina.common.state_coordinator.core.stateChecker
-import moe.christina.decision.R
-import christina.application.decision.core.BaseDecisionFragment
-import christina.application.decision.decisions_list.domain.model.Decision
 import christina.library.android.architecture.mvp.screen_view.ScreenView
 import christina.library.android.architecture.mvp.screen_view.content.ContentScreenView
 import christina.library.android.architecture.mvp.screen_view.task.TaskScreenView
 import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.find
+import org.jetbrains.anko.toast
 
 class DecisionsListFragment :
     BaseDecisionFragment(),
@@ -38,8 +39,6 @@ class DecisionsListFragment :
 
             override fun display(content: List<Decision>) {
                 activity.toast("Lost loaded. Size: ${content.size}")
-
-
             }
 
             override val progressScreenView: ScreenView =
@@ -61,17 +60,22 @@ class DecisionsListFragment :
                 }
         }
 
-    private val visibilityCoordinator: StateCoordinator<View, Boolean>
-        = BasicStateCoordinator(
-        stateChanger { visible -> visibility = if (visible) View.VISIBLE else View.GONE },
-        stateChecker { (visibility == View.VISIBLE && it) || (visibility != View.VISIBLE && !it) })
+    private val visibilityCoordinator: StateCoordinator<Int, View, Boolean>
+        = BasicStateCoordinator(mutableAccessor(
+        { it.visibility == View.VISIBLE },
+        { view, visible -> view.visibility = if (visible) View.VISIBLE else View.GONE }
+    ))
 
     companion object {
         @JvmStatic
         fun newInstance(): DecisionsListFragment = DecisionsListFragment()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.tempaltes_refreshable_list, container, false)
 
         view.run {
