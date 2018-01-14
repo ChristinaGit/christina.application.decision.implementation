@@ -44,14 +44,14 @@ class DecisionsListFragment :
                 object : ScreenView {
                     override var visible: Boolean
                         get() = visibilityCoordinator.getState(R.id.templates_loading_progress)
-                        set(value) = visibilityCoordinator.setState(R.id.templates_loading_progress, value).also { info("loadingView $value") }
+                        set(value) = visibilityCoordinator.setState(R.id.templates_loading_progress, value)
                 }
 
             override val errorScreenView: ContentScreenView<String> =
                 object : ContentScreenView<String> {
                     override var visible: Boolean
                         get() = visibilityCoordinator.getState(R.id.templates_loading_error)
-                        set(value) = visibilityCoordinator.setState(R.id.templates_loading_error, value).also { info("errorView $value") }
+                        set(value) = visibilityCoordinator.setState(R.id.templates_loading_error, value)
 
                     override fun display(content: String) {
                         loadingErrorView.text = content
@@ -98,13 +98,6 @@ class DecisionsListFragment :
             layoutManager = LinearLayoutManager(context)
             adapter = decisionsListAdapter
         }
-
-        //        visibilityCoordinator[R.id.templates_loading_error] = true
-        //        loadingErrorView.setOnClickListener {
-        //            visibilityCoordinator[R.id.templates_loading_progress] = !visibilityCoordinator[R.id.templates_loading_progress]
-        //
-        //            info("click -> ${visibilityCoordinator[R.id.templates_loading_progress]}")
-        //        }
 
         return view
     }
