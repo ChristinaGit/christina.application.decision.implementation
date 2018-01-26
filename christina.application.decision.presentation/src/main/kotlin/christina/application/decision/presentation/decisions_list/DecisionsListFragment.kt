@@ -10,34 +10,37 @@ import android.widget.TextView
 import christina.application.decision.presentation.R
 import christina.application.decision.presentation.core.BaseDecisionFragment
 import christina.common.core.accessor.mutableAccessor
-import christina.common.event.Events
-import christina.common.event.core.NoticeEvent
-import christina.common.event.core.NoticeInternalEvent
-import christina.common.event.core.invoke
+import christina.common.rx.event.UnitEvent
+import christina.common.rx.event.invoke
 import christina.common.state_coordinator.basic.BasicStateCoordinator
 import christina.common.state_coordinator.core.StateCoordinator
 import christina.library.android.architecture.mvp.screen_view.ScreenView
 import christina.library.android.architecture.mvp.screen_view.content.ContentScreenView
-import christina.library.android.architecture.mvp.screen_view.task.InitialTaskScreenView
+import christina.library.android.architecture.mvp.screen_view.task.IndeterminateTaskScreenView
+import io.reactivex.Observable
+import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.Subject
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.find
-import org.jetbrains.anko.info
 
 class DecisionsListFragment :
     BaseDecisionFragment(),
     DecisionsListScreen,
     AnkoLogger {
-    override val onLoadDecisionsList: NoticeEvent
-        get() = onLoadDecisionsListEvent
+    override val onRequestLoadDecisionsList: Observable<UnitEvent>
+        get() = onRequestLoadDecisionsListEvent.hide()
 
-    override val decisionsListScreenView: InitialTaskScreenView<List<String?>, String> =
-        object : InitialTaskScreenView<List<String?>, String> {
+    override val decisionsListScreenView: IndeterminateTaskScreenView<List<String?>, Unit> =
+        object : IndeterminateTaskScreenView<List<String?>, Unit> {
             override var visible: Boolean
                 get() = visibilityCoordinator.getState(R.id.templates_list_content)
                 set(value) = visibilityCoordinator.setState(R.id.templates_list_content, value)
 
             override fun display(content: List<String?>) {
-                decisionsListAdapter.items = content
+                decisionsListAdapter.apply {
+                    items = content
+                    notifyDataSetChanged()
+                }
             }
 
             override val progressScreenView: ScreenView =
@@ -47,23 +50,24 @@ class DecisionsListFragment :
                         set(value) = visibilityCoordinator.setState(R.id.templates_loading_progress, value)
                 }
 
-            override val errorScreenView: ContentScreenView<String> =
-                object : ContentScreenView<String> {
+            override val errorScreenView: ContentScreenView<Unit> =
+                object : ContentScreenView<Unit> {
                     override var visible: Boolean
                         get() = visibilityCoordinator.getState(R.id.templates_loading_error)
                         set(value) = visibilityCoordinator.setState(R.id.templates_loading_error, value)
 
-                    override fun display(content: String) {
-                        loadingErrorView.text = content
+                    override fun display(content: Unit) {
                     }
                 }
         }
 
-    private val visibilityCoordinator: StateCoordinator<Int, View, Boolean>
-        = BasicStateCoordinator(mutableAccessor(
-        { it.visibility == View.VISIBLE },
-        { view, visible -> view.visibility = if (visible) View.VISIBLE else View.GONE }
-    ))
+    private val visibilityCoordinator: StateCoordinator<Int, View, Boolean> =
+        BasicStateCoordinator(
+            mutableAccessor(
+                { it.visibility == View.VISIBLE },
+                { view, visible -> view.visibility = if (visible) View.VISIBLE else View.GONE }
+            )
+        )
 
     companion object {
         @JvmStatic
@@ -90,7 +94,6 @@ class DecisionsListFragment :
             visibilityCoordinator.add(R.id.templates_loading_no_content, find(R.id.templates_loading_no_content))
             visibilityCoordinator.add(R.id.templates_loading_error, loadingErrorView)
 
-            info("reset")
             visibilityCoordinator.setState(false)
         }
 
@@ -105,7 +108,7 @@ class DecisionsListFragment :
     override fun onResume() {
         super.onResume()
 
-        onLoadDecisionsListEvent()
+        onRequestLoadDecisionsListEvent()
     }
 
     private lateinit var loadingErrorView: TextView
@@ -113,5 +116,5 @@ class DecisionsListFragment :
 
     private lateinit var decisionsListAdapter: DecisionsListAdapter
 
-    private val onLoadDecisionsListEvent: NoticeInternalEvent = Events.basic()
+    private val onRequestLoadDecisionsListEvent: Subject<UnitEvent> = PublishSubject.create()
 }

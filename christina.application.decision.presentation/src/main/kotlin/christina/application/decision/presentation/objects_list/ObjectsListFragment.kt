@@ -9,11 +9,12 @@ import christina.application.decision.presentation.R
 import christina.application.decision.presentation.core.BaseDecisionFragment
 import christina.application.decision.presentation.objects_list.domain.adapter.ObjectsListAdapter
 import christina.application.decision.presentation.objects_list.domain.model.Object
-import christina.common.event.Events
-import christina.common.event.core.NoticeEvent
-import christina.common.event.core.NoticeInternalEvent
-import christina.common.event.core.invoke
-import christina.library.android.architecture.mvp.screen_view.task.InitialTaskScreenView
+import christina.common.rx.event.UnitEvent
+import christina.common.rx.event.invoke
+import christina.library.android.architecture.mvp.screen_view.task.IndeterminateTaskScreenView
+import io.reactivex.Observable
+import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.Subject
 import org.jetbrains.anko.AnkoLogger
 
 class ObjectsListFragment :
@@ -25,15 +26,19 @@ class ObjectsListFragment :
         fun newInstance(): ObjectsListFragment = ObjectsListFragment()
     }
 
-    override val objectsListScreenView: InitialTaskScreenView<List<Object>, String>
+    override val objectsListScreenView: IndeterminateTaskScreenView<List<Object>, String>
         get() = TODO("not implemented")
 
-    override val onLoadObjectsList: NoticeEvent
-        get() = onLoadObjectsListEvent
+    override val onLoadObjectsList: Observable<UnitEvent>
+        get() = onLoadObjectsListEvent.hide()
 
     private val objectsAdapter = ObjectsListAdapter()
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater?,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater?.inflate(R.layout.tempaltes_refreshable_list, container, false)?.apply view@ {
             //            loadableScreenDelegate.apply {
             //                val visibilityCoordinator = LoadingVisibilityCoordinator().apply {
@@ -84,5 +89,5 @@ class ObjectsListFragment :
         onLoadObjectsListEvent()
     }
 
-    private val onLoadObjectsListEvent: NoticeInternalEvent = Events.basic()
+    private val onLoadObjectsListEvent: Subject<UnitEvent> = PublishSubject.create()
 }

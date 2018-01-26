@@ -1,7 +1,8 @@
 package christina.application.decision.presentation.objects_viewer
 
-import christina.common.event.core.NoticeEvent
+import christina.common.rx.event.UnitEvent
+import io.reactivex.Observable
 
 interface ObjectsViewerScreen {
-    val onRequestCreateObject: NoticeEvent
+    val onRequestCreateObject: Observable<UnitEvent>
 }

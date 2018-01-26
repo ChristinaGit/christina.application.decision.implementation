@@ -17,11 +17,12 @@ constructor(
     private val rxManager: RxManager,
     private val storage: DecisionStorage
 ) : ActionInteractor<Observable<CreateDecisionResult>> {
-    override fun execute(argument: Unit): Observable<CreateDecisionResult> {
-        return Observable
+    override fun execute(argument: Unit): Observable<CreateDecisionResult> =
+        Observable
             .just(storage.decisions.create(DecisionEntityData().apply { name.set(UUID.randomUUID().toString()) }))
+            .subscribeOn(RxSchedulers.io())
+            .observeOn(RxSchedulers.computation())
             .map { CreateDecisionResult(mapper.map(it)) }
             .autoManage(rxManager)
-            .subscribeOn(RxSchedulers.io())
-    }
+            .observeOn(RxSchedulers.main())
 }

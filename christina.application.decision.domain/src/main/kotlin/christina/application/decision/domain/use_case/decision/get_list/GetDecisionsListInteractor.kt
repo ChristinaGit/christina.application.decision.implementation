@@ -9,18 +9,18 @@ import christina.library.mapper.core.Mapper
 import christina.library.mapper.core.mapMany
 import io.reactivex.Observable
 
-class GetDecisionsListInteractor
-constructor(
+class GetDecisionsListInteractor(
     private val mapper: Mapper,
     private val rxManager: RxManager,
     private val storage: DecisionStorage
 ) : ActionInteractor<Observable<GetDecisionsListResult>> {
-    override fun execute(argument: Unit): Observable<GetDecisionsListResult> {
-        return storage
+    override fun execute(argument: Unit): Observable<GetDecisionsListResult> =
+        storage
             .decisions
             .queryAll()
-            .autoManage(rxManager)
             .subscribeOn(RxSchedulers.io())
+            .autoManage(rxManager)
+            .observeOn(RxSchedulers.computation())
             .map { return@map GetDecisionsListResult(mapper.mapMany(it)) }
-    }
+            .observeOn(RxSchedulers.main())
 }

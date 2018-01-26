@@ -5,10 +5,11 @@ import android.view.View
 import christina.application.decision.presentation.R
 import christina.application.decision.presentation.core.BaseDecisionActivity
 import christina.application.decision.presentation.objects_list.ObjectsListFragment
-import christina.common.event.Events
-import christina.common.event.core.NoticeEvent
-import christina.common.event.core.NoticeInternalEvent
-import christina.common.event.core.invoke
+import christina.common.rx.event.UnitEvent
+import christina.common.rx.event.invoke
+import io.reactivex.Observable
+import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.Subject
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.find
 
@@ -17,8 +18,8 @@ class ObjectsViewerActivity :
     ObjectsViewerScreen,
     AnkoLogger {
 
-    override val onRequestCreateObject: NoticeEvent
-        get() = onRequestCreateObjectEvent
+    override val onRequestCreateObject: Observable<UnitEvent>
+        get() = onRequestCreateObjectEvent.hide()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,5 +47,5 @@ class ObjectsViewerActivity :
         onRequestCreateObjectEvent()
     }
 
-    private val onRequestCreateObjectEvent: NoticeInternalEvent = Events.basic()
+    private val onRequestCreateObjectEvent: Subject<UnitEvent> = PublishSubject.create()
 }

@@ -11,12 +11,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/DecisionApplicationTheme">
 
         <activity
             android:name=".decisions_viewer.DecisionsViewerActivity"
             android:label="@string/decisions_viewer_title_default"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/DecisionsViewerTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -26,6 +26,6 @@
 
         <activity
             android:name=".objects_viewer.ObjectsViewerActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/DecisionApplicationTheme.NoActionBar"/>
     </application>
 </manifest>

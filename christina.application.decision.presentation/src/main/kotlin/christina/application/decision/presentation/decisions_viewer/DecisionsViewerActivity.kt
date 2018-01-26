@@ -5,11 +5,12 @@ import android.view.View
 import christina.application.decision.presentation.R
 import christina.application.decision.presentation.core.BaseDecisionActivity
 import christina.application.decision.presentation.decisions_list.DecisionsListFragment
-import christina.common.event.Events
-import christina.common.event.core.NoticeEvent
-import christina.common.event.core.NoticeInternalEvent
-import christina.common.event.core.invoke
+import christina.common.rx.event.UnitEvent
+import christina.common.rx.event.invoke
 import christina.library.android.architecture.mvp.screen_view.content.ContentScreenView
+import io.reactivex.Observable
+import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.Subject
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.find
 import org.jetbrains.anko.toast
@@ -18,8 +19,8 @@ class DecisionsViewerActivity :
     BaseDecisionActivity(),
     DecisionsViewerScreen,
     AnkoLogger {
-    override val onRequestCreateDecision: NoticeEvent
-        get() = onRequestCreateDecisionEvent
+    override val onRequestCreateDecision: Observable<UnitEvent>
+        get() = onRequestCreateDecisionEvent.hide()
 
     override val createdDecisionScreenView: ContentScreenView<String?> =
         object : ContentScreenView<String?> {
@@ -56,5 +57,5 @@ class DecisionsViewerActivity :
         onRequestCreateDecisionEvent()
     }
 
-    private val onRequestCreateDecisionEvent: NoticeInternalEvent = Events.basic()
+    private val onRequestCreateDecisionEvent: Subject<UnitEvent> = PublishSubject.create()
 }
