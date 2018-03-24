@@ -1,17 +1,21 @@
+include ':christina.application.decision.implementation'
 include ':christina.application.decision.presentation'
 include ':christina.application.decision.domain'
 include ':christina.application.decision.persistence'
 include ':christina.library.android.architecture.mvp'
 include ':christina.library.android.templates'
 include ':christina.library.android.common'
+include ':christina.library.application'
 include ':christina.library.mapper'
 include ':christina.library.common'
 
-project(':christina.application.decision.presentation').projectDir = new File('christina.application.decision.presentation')
-project(':christina.application.decision.domain').projectDir = new File('christina.application.decision.domain')
-project(':christina.application.decision.persistence').projectDir = new File('christina.application.decision.persistence')
-project(':christina.library.android.architecture.mvp').projectDir = new File('../christina.library.android.architecture.mvp/christina.library.android.architecture.mvp')
-project(':christina.library.android.templates').projectDir = new File('../christina.library.android.templates/christina.library.android.templates')
-project(':christina.library.android.common').projectDir = new File('../christina.library.android.common/christina.library.android.common')
-project(':christina.library.mapper').projectDir = new File('../christina.library.mapper/christina.library.mapper')
-project(':christina.library.common').projectDir = new File('../christina.library.common/christina.library.common')
+project(':christina.application.decision.implementation').projectDir    = new File('christina.application.decision.implementation')
+project(':christina.application.decision.presentation').projectDir      = new File('../christina.application.decision/christina.application.decision.presentation')
+project(':christina.application.decision.domain').projectDir            = new File('../christina.application.decision/christina.application.decision.domain')
+project(':christina.application.decision.persistence').projectDir       = new File('../christina.application.decision/christina.application.decision.persistence')
+project(':christina.library.android.architecture.mvp').projectDir       = new File('../christina.library.android.architecture.mvp/christina.library.android.architecture.mvp')
+project(':christina.library.android.templates').projectDir              = new File('../christina.library.android.templates/christina.library.android.templates')
+project(':christina.library.android.common').projectDir                 = new File('../christina.library.android.common/christina.library.android.common')
+project(':christina.library.application').projectDir                    = new File('../christina.library.application/christina.library.application')
+project(':christina.library.mapper').projectDir                         = new File('../christina.library.mapper/christina.library.mapper')
+project(':christina.library.common').projectDir                         = new File('../christina.library.common/christina.library.common')

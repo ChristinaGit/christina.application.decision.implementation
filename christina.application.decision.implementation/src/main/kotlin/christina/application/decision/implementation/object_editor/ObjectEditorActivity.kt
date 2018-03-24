@@ -1,0 +1,3 @@
+package christina.application.decision.implementation.object_editor
+
+class ObjectEditorActivity

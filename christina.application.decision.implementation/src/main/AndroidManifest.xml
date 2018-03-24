@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="christina.application.decision.implementation">
+
+    <application
+        android:name=".decision.DecisionApplication"
+        android:allowBackup="true"
+        android:fullBackupContent="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/decision_application_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/DecisionApplicationTheme">
+
+        <activity
+            android:name=".decisions_viewer.DecisionsViewerActivity"
+            android:label="@string/decisions_viewer_title_default"
+            android:theme="@style/DecisionsViewerTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.INSERT"/>
+                <action android:name="android.intent.action.INSERT_OR_EDIT"/>
+                <action android:name="android.intent.action.EDIT"/>
+                <action android:name="android.intent.action.PICK"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+
+                <data android:mimeType="vnd.android.cursor.dir/vnd.christina.decision"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".objects_viewer.ObjectsViewerActivity"
+            android:label="@string/objects_viewer_title_default"
+            android:theme="@style/ObjectsViewerTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.INSERT"/>
+                <action android:name="android.intent.action.INSERT_OR_EDIT"/>
+                <action android:name="android.intent.action.EDIT"/>
+                <action android:name="android.intent.action.PICK"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+
+                <data android:mimeType="vnd.android.cursor.dir/vnd.christina.decision.object"/>
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

@@ -1,0 +1,24 @@
+<resources>
+    <!--region Common-->
+    <string name="common_error_unsupported_action">Запрашиваемое действие не поддерживается</string>
+    <!--endregion Common-->
+
+    <!--region Decision Application-->
+    <string name="decision_application_name">Decision</string>
+    <!--endregion Decision Application-->
+
+    <!--region Decision Viewer-->
+    <string name="decisions_viewer_title_default">Список принятых решений</string>
+
+    <string name="decisions_viewer_message_created">Создано новое решение: \"%1$s\"</string>
+    <string name="decisions_viewer_message_created_unnamed">Создано новое решение</string>
+
+    <string name="decisions_viewer_error_unsupported_action">@string/common_error_unsupported_action</string>
+    <!--endregion Decision Viewer-->
+
+    <!--region Objects Viewer-->
+    <string name="objects_viewer_title_default">Список объектов</string>
+    <!--endregion Objects Viewer-->
+
+    <string name="layer_editor_title">Редактирование уровня</string>
+</resources>
